@@ -1,0 +1,78 @@
+.landing-page {
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: rgb(77, 177, 255, 0.3);
+    color: #0070F2;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    background-color: rgb(255, 255, 255, 0.7);
+    padding: 20px;
+    text-align: center;
+    width: 400px;
+}
+
+
+.login-h1 {
+    font-size: 28px;
+    letter-spacing: 2pt;
+    margin-bottom: 10px;
+}
+
+.login-prompt {
+    font-size: 16px;
+    margin-bottom: 10px;
+    letter-spacing: 1pt;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.login-input {
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 11pt;
+    border: 1px solid #ccc;
+    font-family: 'Trebuchet MS', sans-serif;
+    letter-spacing: 1pt;
+}
+
+button {
+    background-color: #0070F2;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 11pt;
+    letter-spacing: 1pt;
+    color: #FFFFFF;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0070F2;
+}
+
+.toggle-authentication-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10pt;
+    color: #4DB1FF;
+    letter-spacing: 1pt;
+}
+
+.toggle-authentication-form span {
+    margin-right: 5px;
+}
+
+.toggle-authentication-form p {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #4DB1FF;
+}

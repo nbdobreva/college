@@ -1,0 +1,25 @@
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+.upcoming-events {
+    font-family: 'Trebuchet MS', sans-serif;
+    letter-spacing: 1pt;
+    padding-top: 20px;
+    font-style: italic;
+}
+
+.not-approved-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+}
+
+.dashboard-not-approved {
+    color: #A9B4BE;
+    text-align: center;
+    max-width: 80%;
+    font-style: italic;
+}

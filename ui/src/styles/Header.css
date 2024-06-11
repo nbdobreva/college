@@ -1,0 +1,30 @@
+.header {
+    background-color: #0070F2;
+    color: #EBF8FF;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.bi-people-fill {
+    margin-top: 5px;
+    font-size: 20pt;
+    margin-right: 10px;
+}
+
+
+.title {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 18pt;
+    letter-spacing: 1pt;
+    margin-top: 3px;
+}

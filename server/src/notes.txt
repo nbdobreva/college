@@ -1,0 +1,57 @@
+API Description
+
+Authentication
+    POST    /register       Create user
+        Body: Username, password and role
+    POST    /login          Authenticate
+        Body: Username and password
+
+
+/Users
+    GET                               Retrieve all users
+        Query parameters: filter
+    GET         /{id}                 Retrieve a user by the specified id
+    PUT         /{id}                 Update a user with the specified id
+        Body: The updated user
+    DELETE      /{id}                 Delete a user
+    PATCH       /{id}/authorize       Assign role to a user
+        Body: The role to be assigned
+
+
+/Courses
+    GET                               Retrieve all courses
+        Query parameters: filter
+    GET         /{id}                 Retrieve a course by the specified id
+    PUT         /{id}                 Update a course with the specified id
+        Body: The updated course
+    DELETE      /{id}                 Delete a course
+    PATCH       /{id}                 Assign a student to the course
+        Body: A student id to be assigned
+
+
+/Departments
+    POST                              Create a department
+    GET                               Retrieve all departments
+        Query parameters: filter
+    GET         /{id}                 Retrieve a department by the specified id
+    PUT         /{id}                 Update a department with the specified id
+        Body: The updated department
+    DELETE      /{id}                 Delete a department
+
+
+/Faculties
+    GET                               Retrieve all faculties
+        Query parameters: filter
+    GET         /{id}                 Retrieve a faculty by the specified id
+    PUT         /{id}                 Update a faculty with the specified id
+        Body: The updated department
+    DELETE      /{id}                 Delete a faculty
+
+
+/Colleges
+    GET                               Retrieve all colleges
+        Query parameters: filter
+    GET         /{id}                 Retrieve a college by the specified id
+    PUT         /{id}                 Update a college with the specified id
+        Body: The updated department
+    DELETE      /{id}                 Delete a college
