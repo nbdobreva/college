@@ -9,8 +9,7 @@ public class FacultyDTO {
     @NotNull(message = "The \"name\" attribute is mandatory")
     private String name;
 
-    @NotNull(message = "The \"collegeID\" attribute is mandatory")
-    private String collegeId;
+    private String description;
 
     public FacultyDTO() {
     }
@@ -23,11 +22,11 @@ public class FacultyDTO {
         this.name = name;
     }
 
-    public String getCollegeId() {
-        return collegeId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCollegeId(String collegeId) {
-        this.collegeId = collegeId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

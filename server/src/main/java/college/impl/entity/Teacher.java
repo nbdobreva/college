@@ -1,5 +1,9 @@
 package college.impl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import jakarta.persistence.*;
@@ -8,6 +12,7 @@ import java.util.List;
 @Entity
 @EntityScan
 @Table(name = "TEACHERS")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -15,17 +20,21 @@ public class Teacher {
     private String id;
 
     @OneToOne(mappedBy = "head")
+    @JsonBackReference
     private Department headOf;
 
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
+    @JsonManagedReference
     private Department department;
 
     @OneToOne
     @JoinColumn(name = "USER_ID")
+    @JsonManagedReference
     private User user;
 
     @OneToMany(mappedBy = "teacher")
+    @JsonBackReference
     private List<Course> courses;
 
     public Teacher() {

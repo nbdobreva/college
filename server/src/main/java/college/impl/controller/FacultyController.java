@@ -1,8 +1,6 @@
 package college.impl.controller;
 
-import college.impl.dto.CollegeDTO;
 import college.impl.dto.FacultyDTO;
-import college.impl.entity.College;
 import college.impl.entity.Faculty;
 import college.impl.service.CollegeService;
 import college.impl.service.FacultyService;
@@ -32,8 +30,8 @@ public class FacultyController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Faculty> createFaculty(@Valid @RequestBody FacultyDTO facultyDTO) {
-        College college = findExistingCollege(facultyDTO.getCollegeId());
-        Faculty createdFaculty = facultyService.create(new Faculty(facultyDTO.getName(), college));
+        verifyNameIsPresent(facultyDTO);
+        Faculty createdFaculty = facultyService.create(entityFromDTO(new Faculty(), facultyDTO));
 
         return new ResponseEntity<>(createdFaculty, HttpStatus.CREATED);
     }
@@ -47,29 +45,30 @@ public class FacultyController {
 
     @GetMapping(value = "/{facultyId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Faculty> getFacultyById(@PathVariable String facultyId) {
-        Faculty faculty = facultyService.getById(facultyId);
+        Faculty faculty = existingFaculty(facultyId);
 
         return new ResponseEntity<>(faculty, HttpStatus.OK);
     }
 
     @PutMapping(value = "/{facultyId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Faculty> updateFaculty(@PathVariable String facultyId, @Valid @RequestBody FacultyDTO facultyDTO) {
-        Faculty existingFaculty = findExistingFaculty(facultyId);
+        verifyNameIsPresent(facultyDTO);
+        Faculty existingFactuly = existingFaculty(facultyId);
 
-        Faculty updatedFaculty = facultyService.update(facultyUpdate(existingFaculty, facultyDTO));
+        Faculty updatedFaculty = facultyService.update(entityFromDTO(existingFactuly, facultyDTO));
         return new ResponseEntity<>(updatedFaculty, HttpStatus.OK);
     }
 
     @Transactional
     @DeleteMapping(value = "/{facultyId}")
     public ResponseEntity<Void> deleteFaculty(@PathVariable String facultyId) {
-        Faculty faculty = findExistingFaculty(facultyId);
-        facultyService.delete(faculty);
+        Faculty existingFaculty = existingFaculty(facultyId);
+        facultyService.delete(existingFaculty);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private Faculty findExistingFaculty(String id) {
+    private Faculty existingFaculty(String id) {
         Faculty existingFaculty = facultyService.getById(id);
 
         if (Objects.isNull(existingFaculty)) {
@@ -79,22 +78,16 @@ public class FacultyController {
         return existingFaculty;
     }
 
-    private College findExistingCollege(String id) {
-        College existingCollege = collegeService.getById(id);
+    private Faculty entityFromDTO(Faculty faculty, FacultyDTO dto) {
+        faculty.setName(dto.getName());
+        faculty.setDescription(dto.getDescription());
 
-        if (Objects.isNull(existingCollege)) {
-            throw new EntityNotFoundException("College with the provided id not found.");
-        }
-
-        return existingCollege;
+        return faculty;
     }
 
-    private Faculty facultyUpdate(Faculty existingFaculty, FacultyDTO updateBody) {
-        College college = findExistingCollege(updateBody.getCollegeId());
-
-        existingFaculty.setCollege(college);
-        existingFaculty.setName(updateBody.getName());
-
-        return existingFaculty;
+    private void verifyNameIsPresent(FacultyDTO dto) {
+        if (dto.getName().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty.");
+        }
     }
 }

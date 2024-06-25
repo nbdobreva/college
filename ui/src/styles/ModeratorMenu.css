@@ -1,0 +1,115 @@
+.moderator-tab {
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.moderator-menu {
+    display: flex;
+    font-family: 'Trebuchet MS';
+    font-size: 12pt;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-top: 1%;
+    cursor: pointer;
+}
+
+.moderator-icon {
+    padding-right: 5%;
+    font-size: 14pt;
+}
+
+.view-menu {
+    border: 1px solid #e2e6ea;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #A9B4BE;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F5F6F7;
+}
+
+.view-search-menu {
+    list-style: none;
+    background-color: #F5F6F7;
+    max-height: 200px;
+    overflow-y: visible;
+    overflow-x: hidden;
+    position: relative;
+    padding-bottom: 15px;
+    max-height: 200px;
+    border: 1px solid #e2e6ea;
+    border-top: none;
+}
+
+.search-menu {
+    width: 85%;
+    margin-top: 2%;
+    margin-left: 4%;
+    padding: 8px;
+    font-size: 10pt;
+    font-family: 'Trebuchet MS';
+    letter-spacing: 1pt;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.menu-divider {
+    position: sticky;
+    top: 30px;
+    z-index: 1;
+    background-color: #F5F6F7;
+    padding-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.divider-line {
+    border-bottom: 1px solid #A9B4BE;
+    padding-top: 10px;
+    width: 75%;
+}
+
+.user {
+    display: flex;
+    gap: 20px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    font-size: 10pt;
+    letter-spacing: 1pt;
+}
+
+.manage-menu-button {
+    font-size: 10pt;
+    letter-spacing: 1pt;
+    margin-top: 20px;
+    float: right;
+    text-decoration: underline;
+    margin-right: 10px;
+    cursor: pointer;
+    color: #A9B4BE;
+}
+
+.manage-menu-button:hover {
+    font-size: 10pt;
+    color: #A9B4BE;
+    letter-spacing: 1pt;
+    margin-top: 20px;
+    float: right;
+    text-decoration: underline;
+    margin-right: 20px;
+    cursor: pointer;
+}

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @EntityScan
-@Table(name = "COLLEGES")
+@Table(name = "COLLEGE_INFO")
 public class College {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,9 +20,6 @@ public class College {
 
     @Column(name = "ADDRESS")
     private String address;
-
-    @OneToMany(mappedBy = "college")
-    private List<Faculty> faculties;
 
     public College() {
     }

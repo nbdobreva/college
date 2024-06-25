@@ -1,5 +1,6 @@
 package college.impl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
@@ -17,19 +18,20 @@ public class Faculty {
     @Column(name = "NAME")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "COLLEGE_ID")
-    private College college;
+    @Column(name = "DESCRIPTION", length = 65535)
+    @Lob
+    private String description;
 
-    @OneToMany(mappedBy = "faculty")
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Department> departments;
 
     public Faculty() {
     }
 
-    public Faculty(String name, College college) {
+    public Faculty(String name, String description) {
         this.name = name;
-        this.college = college;
+        this.description = description;
     }
 
     public String getId() {
@@ -48,12 +50,12 @@ public class Faculty {
         this.name = name;
     }
 
-    public College getCollege() {
-        return this.college;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCollege(College college) {
-        this.college = college;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<Department> getDepartments() {

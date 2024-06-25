@@ -21,8 +21,9 @@ const Login = () => {
         try {
             const response = await fetch('http://localhost:8000/auth/login', {
                 method: 'POST',
+                mode: 'cors',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     username: username,
@@ -32,13 +33,16 @@ const Login = () => {
 
             if (response.ok) {
                 const data = await response.json();
-
-                const user = data.user;
-
                 localStorage.setItem('Authentication', basicAuth);
-                localStorage.setItem('User', JSON.stringify(user))
-                setAuthData({ isAuthenticated: true, user });
-                console.log(user)
+                localStorage.setItem('User', JSON.stringify(data));
+                setAuthData({ isAuthenticated: true, data });
+
+                if (data.role === "STUDENT") {
+                    await fetchStudent(data.id);
+                }
+                if (data.role === "TEACHER") {
+                    await fetchTeacher(data.id);
+                }
                 navigate('/dashboard');
             } else {
                 console.error('Authentication failed with status', response.status);
@@ -47,6 +51,56 @@ const Login = () => {
             console.error('Error during login:', error);
         }
     };
+
+    const fetchStudent = async (userId) => {
+        try {
+            const token = localStorage.getItem('Authentication');
+            const headers = new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `${token}`,
+            });
+
+            const response = await fetch(`http://localhost:8000/api/Students?userId=${userId}`, {
+                method: 'GET',
+                headers: headers,
+            });
+
+            if (response.ok) {
+                const studentData = await response.json();
+                localStorage.setItem('Entity', JSON.stringify(studentData));
+            } else {
+                console.error('Failed to fetch student:', response.status);
+            }
+        } catch (error) {
+            console.error('Error during student fetch:', error);
+        }
+
+    }
+
+    const fetchTeacher = async (userId) => {
+        try {
+            const token = localStorage.getItem('Authentication');
+            const headers = new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `${token}`,
+            });
+
+            const response = await fetch(`http://localhost:8000/api/Teachers?userId=${userId}&expand=courses`, {
+                method: 'GET',
+                headers: headers,
+            });
+
+            if (response.ok) {
+                const teacherData = await response.json();
+                localStorage.setItem('Entity', JSON.stringify(teacherData));
+            } else {
+                console.error('Failed to fetch student:', response.status);
+            }
+        } catch (error) {
+            console.error('Error during student fetch:', error);
+        }
+
+    }
 
     const handleRegister = async () => {
         try {
@@ -79,7 +133,6 @@ const Login = () => {
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('user', JSON.stringify(user))
                 setAuthData({ isAuthenticated: true, user });
-                console.log(user)
                 navigate('/dashboard');
             } else {
                 console.error('Authentication failed with status', response.status);

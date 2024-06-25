@@ -1,5 +1,5 @@
 .header {
-    background-color: #0070F2;
+    background-color: #40826D;
     color: #EBF8FF;
     padding: 10px;
     position: fixed;
@@ -15,12 +15,11 @@
     vertical-align: middle;
 }
 
-.bi-people-fill {
+.bi-bank {
     margin-top: 5px;
     font-size: 20pt;
     margin-right: 10px;
 }
-
 
 .title {
     font-family: 'Trebuchet MS', sans-serif;

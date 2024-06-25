@@ -15,8 +15,8 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public Department create(Department faculty) {
-        return departmentRepository.save(faculty);
+    public Department create(Department department) {
+        return departmentRepository.save(department);
     }
 
     public List<Department> getAll() {
@@ -25,6 +25,10 @@ public class DepartmentService {
 
     public Department getById(String id) {
         return departmentRepository.findAllById(id);
+    }
+
+    public List<Department> getByFaculty(Faculty faculty) {
+        return departmentRepository.findByFaculty(faculty);
     }
 
     public Department update(Department department) {

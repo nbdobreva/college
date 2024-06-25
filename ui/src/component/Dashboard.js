@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext'
 import '../styles/Dashboard.css'
+import Loader from './helpers/Loader';
 
 const Dashboard = () => {
-    const { user } = useAuth();
-    const [events, setEvents] = useState([]);
-    const [upcomingEvent, setUpcomingEvent] = useState('');
-    const [loading, setLoading] = useState(true);
+    const { user, loading } = useAuth();
 
+    useEffect(() => {
+    }, [user, loading]);
+
+
+    console.log(user);
     return (
-        <div>
-            <h2>Welcome, {user.firstName}! </h2>
-        </div>
+        <>
+            {!user ?
+                <Loader /> :
+                <div>
+                    <h2>Welcome, {user.firstName}! </h2>
+                </div>
+            }</>
     );
 };
 

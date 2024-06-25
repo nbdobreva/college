@@ -1,0 +1,52 @@
+.department-page {
+    display: flex;
+    width: 100%;
+}
+
+.department-container {
+    width: 75%;
+    padding-right: 5%;
+    border-right: 1px solid #EAECEE;
+    margin-left: 10px;
+    height: 100vh;
+    padding-bottom: 50px;
+}
+
+.department-image {
+    margin-bottom: 30px;
+}
+
+.department-details-title {
+    margin-bottom: 30px;
+}
+
+.department-description {
+    margin-bottom: 30px;
+    line-height: 25pt;
+    font-family: "Lora", serif;
+}
+
+.department-details {
+    margin-left: 30px;
+}
+
+.moderator-menu-container {
+    position: fixed;
+    right: 0;
+    width: 16%;
+    margin-right: 10px;
+}
+
+.department-head {
+    display: flex;
+    align-items: center;
+}
+
+.department-head-link {
+    display: inline;
+    padding-left: 20px;
+}
+
+.bi-mortarboard-fill {
+    font-size: 20pt;
+}

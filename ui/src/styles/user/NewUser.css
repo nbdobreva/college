@@ -1,0 +1,123 @@
+.new-user-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-user-modal {
+    background-color: #fff;
+    padding: 30px;
+    width: 60%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    position: relative;
+}
+
+.new-user-close-button {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #A9B4BE;
+}
+
+.new-user-form {
+    padding-left: 5px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.new-user-input {
+    border: none;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 11pt;
+    font-family: 'Trebuchet MS';
+    letter-spacing: 1pt;
+}
+
+.description-input {
+    border: none;
+    width: 100%;
+    height: 150px;
+    word-wrap: break-word;
+    white-space: normal;
+    resize: none;
+    font-size: 11pt;
+    font-family: 'Trebuchet MS';
+    letter-spacing: 1pt;
+    padding-left: 7px;
+}
+
+.new-user-buttons {
+    display: flex;
+    justify-content: right;
+    gap: 15px;
+}
+
+.new-user-button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: #F5F6F7;
+    color: #556B82;
+}
+
+.cancel-button:hover {
+    background-color: #A9B4BE;
+    color: white;
+}
+
+.create-button {
+    background-color: #40826D;
+    color: white;
+}
+
+.create-button:hover {
+    background-color: #4DB1FF;
+    color: white;
+}
+
+
+.new-user-role-select {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-role-select-icon {
+    padding-right: 10px;
+    display: inline;
+}
+
+.new-user-select-options {
+    border: 1px solid #EAECEE;
+    width: 50%;
+    padding: 8px;
+    font-size: 11pt;
+    font-family: 'Trebuchet MS';
+    letter-spacing: 1pt;
+    display: inline;
+}
+
+
+.toast-class {
+    letter-spacing: 1pt;
+    font-family: 'Trebuchet MS';
+    font-size: 11pt;
+}

@@ -1,25 +1,27 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { json } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-
-    const initialize = (() => localStorage.getItem('Authentication') && localStorage.getItem('user'))();
-
-    const [isAuthenticated, setIsAuthenticated] = useState(initialize ? true : null);
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState(initialize ? localStorage.getItem('user') : null);
+    const [user, setUser] = useState(null);
+    const [userEntity, setUserEntity] = useState(null);
 
     useEffect(() => {
         const checkAuthStatus = async () => {
             const token = localStorage.getItem('Authentication');
-            if (token) {
+            const userData = localStorage.getItem('User');
+            const userEntityData = localStorage.getItem("Entity");
+
+            if (token && userData) {
                 try {
-                    const userData = JSON.parse(localStorage.getItem('user'));
+                    const parsedUserData = JSON.parse(userData);
                     setIsAuthenticated(true);
-                    setUser(userData);
+                    setUser(parsedUserData);
                 } catch (error) {
-                    console.error('Error fetching user data:', error);
+                    console.error('Error parsing user data:', error);
                     setIsAuthenticated(false);
                     setUser(null);
                 }
@@ -28,19 +30,31 @@ export const AuthProvider = ({ children }) => {
                 setUser(null);
             }
 
+            if (userEntityData) {
+                try {
+                    const parsedUserEntityData = JSON.parse(userEntityData);
+                    setUserEntity(parsedUserEntityData);
+                }
+                catch (error) {
+                    console.error('Error parsing userEntity data:', error);
+                    setUserEntity(null);
+                }
+            }
+
             setLoading(false);
         };
 
         checkAuthStatus();
     }, []);
 
-    const setAuthData = ({ isAuthenticated, user }) => {
+    const setAuthData = (authData) => {
+        const { isAuthenticated, user } = authData;
         setIsAuthenticated(isAuthenticated);
         setUser(user);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setAuthData, loading, user, setUser }}>
+        <AuthContext.Provider value={{ isAuthenticated, setAuthData, loading, user, setUser, userEntity }}>
             {children}
         </AuthContext.Provider>
     );

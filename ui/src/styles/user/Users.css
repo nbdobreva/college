@@ -1,0 +1,68 @@
+.users-container {
+    color: #1D2D3E;
+    font-family: 'Trebuchet MS';
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding-left: 50px;
+}
+
+.pagination {
+    background: none;
+    color: black;
+}
+
+.pagination:hover {
+    background: none;
+    cursor: pointer;
+    color: darkgray;
+}
+
+.pagination.current {
+    text-decoration: underline;
+}
+
+.search-users {
+    padding: 8px;
+    font-size: 11pt;
+    flex-grow: 1;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    font-family: 'Trebuchet MS', sans-serif;
+    letter-spacing: 1pt;
+}
+
+.search-and-add-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-userEntity-button {
+    margin-left: 10px;
+}
+
+.user-entry {
+    padding: 20px;
+}
+
+.category-button {
+    background: none;
+    color: darkgray;
+    cursor: pointer;
+}
+
+.category-button:hover {
+    background: none;
+}
+
+.category-button.active {
+    background: none;
+    color: darkgray;
+    text-decoration: underline;
+}
+
+.search-and-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

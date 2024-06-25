@@ -1,0 +1,52 @@
+.userEntity-page {
+    display: flex;
+    width: 100%;
+}
+
+.userEntity-container {
+    width: 75%;
+    padding-right: 5%;
+    border-right: 1px solid #EAECEE;
+    margin-left: 10px;
+    height: 100vh;
+    padding-bottom: 50px;
+}
+
+.userEntity-image {
+    margin-bottom: 30px;
+}
+
+.userEntity-details-title {
+    margin-bottom: 30px;
+}
+
+.userEntity-description {
+    margin-bottom: 30px;
+    line-height: 25pt;
+    font-family: "Lora", serif;
+}
+
+.userEntity-details {
+    margin-left: 30px;
+    border-bottom: 1px solid #EAECEE;
+    padding-bottom: 20px;
+}
+
+.moderator-menu-container {
+    position: fixed;
+    right: 0;
+    width: 16%;
+    margin-right: 10px;
+}
+
+
+.userEntity-email {
+    display: flex;
+    align-items: center;
+}
+
+
+.bi-envelope-at {
+    font-size: 20pt;
+    padding-right: 20px;
+}

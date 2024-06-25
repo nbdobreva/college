@@ -1,0 +1,38 @@
+.faculty-page {
+    display: flex;
+    width: 100%;
+}
+
+.faculty-container {
+    width: 75%;
+    padding-right: 5%;
+    border-right: 1px solid #EAECEE;
+    margin-left: 10px;
+    height: 100vh;
+    padding-bottom: 50px;
+}
+
+.faculty-image {
+    margin-bottom: 30px;
+}
+
+.faculty-details-title {
+    margin-bottom: 30px;
+}
+
+.faculty-description {
+    margin-bottom: 30px;
+    line-height: 25pt;
+    font-family: "Lora", serif;
+}
+
+.faculty-details {
+    margin-left: 30px;
+}
+
+.moderator-menu-container {
+    position: fixed;
+    right: 0;
+    width: 16%;
+    margin-right: 10px;
+}

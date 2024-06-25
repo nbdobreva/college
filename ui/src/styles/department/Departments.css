@@ -1,0 +1,44 @@
+.departments-container {
+    color: #1D2D3E;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10%;
+    font-family: 'Trebuchet MS';
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.pagination {
+    background: none;
+    color: black;
+}
+
+.pagination:hover {
+    background: none;
+    cursor: pointer;
+    color: darkgray;
+}
+
+.pagination.current {
+    text-decoration: underline;
+}
+
+.search-departments {
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 11pt;
+    width: 30%;
+    border: 1px solid #ccc;
+    font-family: 'Trebuchet MS', sans-serif;
+    letter-spacing: 1pt;
+}
+
+.search-and-add-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-department-button {
+    margin-left: 10px;
+}

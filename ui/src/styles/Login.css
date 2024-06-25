@@ -1,7 +1,7 @@
 .landing-page {
     font-family: 'Trebuchet MS', sans-serif;
     background-color: rgb(77, 177, 255, 0.3);
-    color: #0070F2;
+    color: #40826D;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -44,7 +44,7 @@
 }
 
 button {
-    background-color: #0070F2;
+    background-color: #40826D;
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 11pt;
     letter-spacing: 1pt;
@@ -55,7 +55,7 @@ button {
 }
 
 button:hover {
-    background-color: #0070F2;
+    background-color: #40826D;
 }
 
 .toggle-authentication-form {

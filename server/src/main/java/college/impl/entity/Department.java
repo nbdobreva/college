@@ -1,5 +1,9 @@
 package college.impl.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import jakarta.persistence.*;
@@ -8,6 +12,7 @@ import java.util.List;
 @Entity
 @EntityScan
 @Table(name = "DEPARTMENTS")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,25 +22,34 @@ public class Department {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "DESCRIPTION", length = 65535)
+    @Lob
+    private String description;
+
     @OneToOne
     @JoinColumn(name = "HEAD_ID")
+    @JsonManagedReference
     private Teacher head;
 
     @ManyToOne
     @JoinColumn(name = "FACULTY_ID")
+    @JsonManagedReference
     private Faculty faculty;
 
     @OneToMany(mappedBy = "department")
+    @JsonBackReference
     private List<Teacher> teachers;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Course> courses;
 
     public Department() {
     }
 
-    public Department(String name, Teacher head, Faculty faculty) {
+    public Department(String name, String description, Teacher head, Faculty faculty) {
         this.name = name;
+        this.description = description;
         this.head = head;
         this.faculty = faculty;
     }
@@ -86,5 +100,13 @@ public class Department {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

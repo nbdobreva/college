@@ -1,0 +1,54 @@
+.course-page {
+    display: flex;
+    width: 100%;
+}
+
+.course-container {
+    width: 75%;
+    padding-right: 5%;
+    border-right: 1px solid #EAECEE;
+    margin-left: 10px;
+    height: 100vh;
+    padding-bottom: 50px;
+}
+
+.course-image {
+    margin-bottom: 30px;
+}
+
+.course-details-title {
+    margin-bottom: 30px;
+}
+
+.course-description {
+    margin-bottom: 30px;
+    line-height: 25pt;
+    font-family: "Lora", serif;
+}
+
+.course-details {
+    margin-left: 30px;
+}
+
+.moderator-menu-container {
+    position: fixed;
+    right: 0;
+    width: 16%;
+    margin-right: 10px;
+}
+
+.course-teacher {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #EAECEE;
+    padding-bottom: 30px;
+}
+
+.course-teacher-link {
+    display: inline;
+    padding-left: 20px;
+}
+
+.bi-person-workspace {
+    font-size: 20pt;
+}

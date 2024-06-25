@@ -8,6 +8,5 @@ export default function ProtectedRoute({ children }) {
     if (isAuthenticated) {
         return children ? children : <Outlet />
     }
-    console.log('Redirecting to login');
     return <Navigate to='/login' />
 }

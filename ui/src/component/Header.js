@@ -1,12 +1,12 @@
 import React from "react";
-import '../styles/Header.css';
+import '../styles/Header.css'
 
 const Header = () => {
     return (
         <div className="header">
             <div className="logo">
-                <i className="bi bi-people-fill"></i>
-                <div className="title">TeamBuild</div>
+                <i class="bi bi-bank"></i>
+                <div className="title">College</div>
             </div>
         </div>
     );
