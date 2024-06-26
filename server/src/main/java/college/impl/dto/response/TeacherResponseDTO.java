@@ -5,6 +5,7 @@ import college.impl.entity.Department;
 import college.impl.entity.Teacher;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public class TeacherCourseResponseDTO extends TeacherUserResponseDTO {
 
     public TeacherCourseResponseDTO(Teacher teacher, List<Course> courses) {
         super(teacher);
-        this.courses = courses.stream().map(TeacherCourse::new).toList();
+        this.courses = Objects.nonNull(courses) ? courses.stream().map(TeacherCourse::new).toList() : Collections.emptyList();
     }
 
     public List<TeacherCourse> getCourses() {
