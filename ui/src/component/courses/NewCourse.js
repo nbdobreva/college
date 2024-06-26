@@ -6,11 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../../styles/course/NewCourse.css';
 
 
-const NewCourse = ({ showModal, onClose, fetchCourses, departmentId, teachers }) => {
+const NewCourse = ({ showModal, onClose, fetchCourses, departmentId, teachers, isFromMyCourses, userEntityId }) => {
     const { user } = useAuth();
     const [name, setName] = useState(null);
     const [description, setDescription] = useState(null);
-    const [teacherId, setTeacherId] = useState(null);
+    const [teacherId, setTeacherId] = useState(userEntityId);
 
     const createCourse = async () => {
         if (!name) {
@@ -95,13 +95,18 @@ const NewCourse = ({ showModal, onClose, fetchCourses, departmentId, teachers })
                                     value={teacherId}
                                     onChange={(e) => setTeacherId(e.target.value)}
                                 >
-                                    <option value="">None</option>
-                                    {teachers.map((teacher) => (
-                                        <option key={teacher.id} value={teacherId}>
-                                            {teacher.firstName} {teacher.lastName}
-                                        </option>
-                                    )
-                                    )}
+                                    {user.role === "TEACHER" && isFromMyCourses ?
+                                        <option value={userEntityId}>{user.firstName} {user.lastName}</option> :
+                                        <>
+                                            <option value="">None</option>
+                                            {teachers.map((teacher) => (
+                                                <option key={teacher.id} value={teacherId}>
+                                                    {teacher.firstName} {teacher.lastName}
+                                                </option>
+                                            )
+                                            )}
+                                        </>
+                                    }
                                 </select>
                             </div>                        </div>
                         <div className="new-course-buttons">

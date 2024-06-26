@@ -56,7 +56,7 @@ public class StudentController {
         Student student = studentService.getByUser(user);
 
         if (Objects.isNull(student)) {
-            throw new EntityNotFoundException("Student for the provided user id not found.");
+            throw new EntityNotFoundException("Student for the provided user not found.");
         }
 
         return new ResponseEntity<>(new StudentResponseDTO(student), HttpStatus.OK);

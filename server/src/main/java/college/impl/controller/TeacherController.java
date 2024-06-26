@@ -1,9 +1,7 @@
 package college.impl.controller;
 
-import college.impl.dto.DepartmentDTO;
 import college.impl.dto.TeacherDTO;
-import college.impl.dto.response.StudentResponseDTO;
-import college.impl.dto.response.TeacherCourseResponseDTO;
+import college.impl.dto.response.TeacherResponseDTO;
 import college.impl.dto.response.TeacherUserResponseDTO;
 import college.impl.entity.*;
 import college.impl.service.CourseService;
@@ -41,66 +39,61 @@ public class TeacherController {
     @Autowired
     UserService userService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Teacher> createTeacher(@Valid @RequestBody TeacherDTO teacherDTO) {
-        Teacher createdTeacher = teacherService.create(entityFromDTO(new Teacher(), teacherDTO));
-
-        return new ResponseEntity<>(createdTeacher, HttpStatus.CREATED);
-    }
-
     @GetMapping
-    public ResponseEntity<List<TeacherUserResponseDTO>> getAllTeachers() {
-        List<Teacher> teachers = teacherService.getAll();
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeacherResponseDTO> getAllTeachers(
+            @RequestParam(required = false) String departmentId,
+            @RequestParam(required = false) String expand) {
 
-        return new ResponseEntity<>(teachers.stream().map(TeacherUserResponseDTO::new).toList(), HttpStatus.OK);
+        List<Teacher> teachers = isRequestParamPresent(departmentId) ?
+                teacherService.getByDepartment(findExistingDepartment(departmentId)) :
+                teacherService.getAll();
+
+        return teachers.stream()
+                .map(teacher -> isRequestParamPresent(expand) ?
+                        new TeacherResponseDTO(teacher, assignedCourses(teacher)) :
+                        new TeacherResponseDTO(teacher, null))
+                .toList();
     }
 
     @GetMapping(value = "/{teacherId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TeacherCourseResponseDTO> getTeacherById(@PathVariable String teacherId, @RequestParam (required = false) String expand) {
-        verifyExpand(expand);
+    @ResponseStatus(HttpStatus.OK)
+    public TeacherResponseDTO getTeacherById(
+            @PathVariable String teacherId,
+            @RequestParam (required = false) String expand) {
 
         Teacher teacher = findExistingTeacher(teacherId);
 
-        return new ResponseEntity<>(new TeacherCourseResponseDTO(teacher, assignedCourses(teacher)), HttpStatus.OK);
+        return isRequestParamPresent(expand) ? new TeacherResponseDTO(teacher, assignedCourses(teacher)) : new TeacherResponseDTO(teacher, null);
     }
 
-    @GetMapping(params = "departmentId")
-    public ResponseEntity<List<TeacherUserResponseDTO>> getTeachersByDepartmentId(@RequestParam String departmentId) {
-        Department department = findExistingDepartment(departmentId);
-        List<Teacher> teachers = teacherService.getByDepartment(department);
-
-        return new ResponseEntity<>(teachers.stream().map(TeacherUserResponseDTO::new).toList(), HttpStatus.OK);
-    }
 
     @GetMapping(params = "userId")
-    public ResponseEntity<TeacherCourseResponseDTO> getTeacherByUserId(@RequestParam String userId, @RequestParam (required = false) String expand) {
-        verifyExpand(expand);
+    @ResponseStatus(HttpStatus.OK)
+    public TeacherResponseDTO getTeacherByUserId(
+            @RequestParam String userId, @RequestParam (required = false) String expand) {
         User user = findExistingUser(userId);
 
-        Teacher teacher = teacherService.getByUser(user);
+        Teacher teacher = findExistingTeacherByUser(user);
 
-        if (Objects.isNull(teacher)) {
-            throw new EntityNotFoundException("Teacher for the provided user id not found.");
-        }
-
-        return new ResponseEntity<>(new TeacherCourseResponseDTO(teacher, assignedCourses(teacher)), HttpStatus.OK);
+        return isRequestParamPresent(expand) ? new TeacherResponseDTO(teacher, assignedCourses(teacher)) : new TeacherResponseDTO(teacher, null);
     }
 
     @PatchMapping (value = "/{teacherId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TeacherUserResponseDTO> patchUpdateTeacher(@PathVariable String teacherId, @Valid @RequestBody TeacherDTO teacherDTO) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void patchUpdateTeacher(@PathVariable String teacherId, @Valid @RequestBody TeacherDTO teacherDTO) {
         Teacher existingTeacher = findExistingTeacher(teacherId);
 
         Teacher updatedTeacher = teacherService.update(modifiedTeacher(existingTeacher, teacherDTO));
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Transactional
     @DeleteMapping(value = "/{teacherId}")
-    public ResponseEntity<Void> deleteCourse(@PathVariable String teacherId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCourse(@PathVariable String teacherId) {
         Teacher teacher = findExistingTeacher(teacherId);
 
         teacherService.delete(teacher);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private Teacher findExistingTeacher(String id) {
@@ -108,6 +101,16 @@ public class TeacherController {
 
         if (Objects.isNull(teacher)) {
             throw new EntityNotFoundException("Teacher with the provided id not found.");
+        }
+
+        return teacher;
+    }
+
+    private Teacher findExistingTeacherByUser(User user) {
+        Teacher teacher = teacherService.getByUser(user);
+
+        if (Objects.isNull(teacher)) {
+            throw new EntityNotFoundException("Teacher for provided not found.");
         }
 
         return teacher;
@@ -165,11 +168,7 @@ public class TeacherController {
         return teacher;
     }
 
-    private void verifyExpand(String expand) {
-        if (Objects.nonNull(expand)){
-            if (!expand.equals("courses")) {
-                throw new EntityNotFoundException("Resource with the provided URI not found");
-            }
-        }
+    private boolean isRequestParamPresent(String param) {
+        return Objects.nonNull(param);
     }
 }

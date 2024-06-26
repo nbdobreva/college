@@ -7,6 +7,7 @@ import college.impl.dto.response.CourseResponseDTO;
 import college.impl.dto.response.StudentUserResponseDTO;
 import college.impl.dto.response.TeacherUserResponseDTO;
 import college.impl.entity.*;
+import college.impl.helpers.PatchOp;
 import college.impl.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -41,55 +42,66 @@ public class CourseController {
     StudentService studentService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CourseResponseDTO> createCourse(@Valid @RequestBody CourseDTO courseDTO) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CourseResponseDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         Course createdCourse = courseService.create(entityFromDTO(new Course(), courseDTO));
 
-        return new ResponseEntity<>(new CourseResponseDTO(createdCourse), HttpStatus.CREATED);
+        return new CourseResponseDTO(createdCourse);
     }
 
     @GetMapping
-    public ResponseEntity<List<CourseResponseDTO>> getAllCourses() {
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseResponseDTO> getAllCourses() {
         List<Course> courses = courseService.getAll();
 
-        return new ResponseEntity<>(courses.stream().map(CourseResponseDTO::new).toList(), HttpStatus.OK);
+        return courses.stream().map(CourseResponseDTO::new).toList();
     }
 
     @GetMapping(value = "/{courseId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CourseResponseDTO> getCourseById(@PathVariable String courseId) {
+    @ResponseStatus(HttpStatus.OK)
+    public CourseResponseDTO getCourseById(@PathVariable String courseId) {
         Course course = courseService.getById(courseId);
 
-        return new ResponseEntity<>(new CourseResponseDTO(course), HttpStatus.OK);
+        return new CourseResponseDTO(course);
     }
 
     @GetMapping(params = "departmentId")
-    public ResponseEntity<List<CourseResponseDTO>> getCoursesByDepartmentId(@RequestParam String departmentId) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseResponseDTO> getCoursesByDepartmentId(@RequestParam String departmentId) {
         Department department = findExistingDepartment(departmentId);
         List<Course> courses = courseService.getByDepartment(department);
 
-        return new ResponseEntity<>(courses.stream().map(CourseResponseDTO::new).toList(), HttpStatus.OK);
+        return courses.stream().map(CourseResponseDTO::new).toList();
     }
 
     @GetMapping("/{courseId}/students")
-    public ResponseEntity<List<StudentUserResponseDTO>> getStudentsByCourseId(@PathVariable String courseId) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentUserResponseDTO>getStudentsByCourseId(@PathVariable String courseId) {
         Course course = findExistingCourse(courseId);
        List<Student> assignedStudents = course.getStudents();
 
 
-        return ResponseEntity.ok(assignedStudents.stream().map(StudentUserResponseDTO::new).toList());
+        return assignedStudents.stream().map(StudentUserResponseDTO::new).toList();
     }
 
     @PatchMapping(value="/{courseId}/students", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<StudentUserResponseDTO>> assignStudentToCourse(@PathVariable String courseId, @Valid @RequestBody AssignmentDTO assignmentDTO) {
+    public ResponseEntity<List<StudentUserResponseDTO>> assignStudentToCourse(
+            @PathVariable String courseId,
+            @Valid @RequestBody AssignmentDTO assignmentDTO) {
+        validatePatchBody(assignmentDTO);
+
         Course course = findExistingCourse(courseId);
-
-        if (Objects.isNull(assignmentDTO.getStudentId())) {
-            throw new IllegalArgumentException("Studend id for assignment is not provided.");
-        }
-
         Student student = findExistingStudent(assignmentDTO.getStudentId());
 
-        course.getStudents().add(student);
-        student.getCourses().add(course);
+        if (assignmentDTO.getOp().equals(PatchOp.ADD)) {
+            course.getStudents().add(student);
+            student.getCourses().add(course);
+        }
+
+        if (assignmentDTO.getOp().equals(PatchOp.REMOVE)) {
+            course.getStudents().remove(student);
+            student.getCourses().remove(course);
+        }
 
         courseService.update(course);
         studentService.update(student);
@@ -174,6 +186,16 @@ public class CourseController {
         }
 
         return course;
+    }
+
+    private void validatePatchBody(AssignmentDTO body) {
+        if (Objects.isNull(body.getStudentId())) {
+            throw new IllegalArgumentException("Student id for assignment is not provided.");
+        }
+
+        if (Objects.isNull((body.getOp())) || (!body.getOp().equals(PatchOp.ADD) && !body.getOp().equals(PatchOp.REMOVE))) {
+            throw new IllegalArgumentException("Patch operation is not provided.");
+        }
     }
 
 }

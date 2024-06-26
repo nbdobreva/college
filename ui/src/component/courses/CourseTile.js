@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../../styles/course/CourseTile.css'
 
 const CourseTile = ({ course }) => {
+    console.log("in courses");
 
     return (
         <div key={course.id} className="course-tile">

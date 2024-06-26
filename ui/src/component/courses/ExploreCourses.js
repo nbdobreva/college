@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import MyCourseTile from './MyCourseTile';
-import NewCourse from './NewCourse';
-
-import '../../styles/course/MyCourses.css'
+import '../../styles/course/Courses.css'
 import 'react-toastify/dist/ReactToastify.css';
+import CourseTile from './CourseTile';
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 12;
 
-const MyCourses = () => {
+const ExploreCourses = () => {
     const { user } = useAuth();
     const [courses, setCourses] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showNewCourseModal, setShowNewCourseModal] = useState(false);
-    const [entity, setEntity] = useState(null);
 
     useEffect(() => {
-        if (user) {
-            fetchMyCourses();
-        }
+        fetchCourses();
     }, [user]);
 
-    const fetchMyCourses = async () => {
-        if (user) {
-            const endpoint = user.role === "TEACHER" ? "Teachers" : "Students";
+    const fetchCourses = async () => {
+        if (user && user.id) {
             try {
                 const token = localStorage.getItem('Authentication');
                 const headers = new Headers({
@@ -32,25 +25,22 @@ const MyCourses = () => {
                     'Authorization': `${token}`,
                 });
 
-                const response = await fetch(`http://localhost:8000/api/${endpoint}?userId=${user.id}&expand`, {
+                const response = await fetch(`http://localhost:8000/api/Courses`, {
                     method: 'GET',
                     headers: headers,
                 });
-
                 if (response.ok) {
                     const data = await response.json();
-                    setEntity(data);
-                    setCourses(data.courses);
+                    const courses = data.sort((a, b) => a.name.localeCompare(b.name));
+                    setCourses(courses);
                 } else {
-                    console.error('Failed to fetch entity:', response.status);
+                    console.error('Failed to fetch courses:', response.status);
                 }
             } catch (error) {
-                console.error('Error during entity fetch:', error);
+                console.error('Error during courses fetch:', error);
             }
         }
-    }
-    console.log("in courses");
-
+    };
 
     const filteredCourses = courses.filter((course) =>
         course.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -72,15 +62,7 @@ const MyCourses = () => {
 
     const totalPages = Math.ceil(filteredCourses.length / PAGE_SIZE);
 
-    const handleNewButtonClick = () => {
-        setShowNewCourseModal(true);
-    };
-
-    const handleModalClose = () => {
-        setShowNewCourseModal(false);
-    };
-
-    return (entity ?
+    return (
         <div>
             <div className="search-and-add-container">
                 <input
@@ -90,17 +72,10 @@ const MyCourses = () => {
                     value={searchTerm}
                     onChange={handleSearch}
                 />
-                {user && user.role === "TEACHER" ?
-                    <button
-                        className="add-course-button"
-                        onClick={handleNewButtonClick}
-                    >
-                        New Course
-                    </button> : null}
             </div>
             <div className="courses-container">
                 {paginatedCourses.map((course) => (
-                    <MyCourseTile course={course} />
+                    <CourseTile course={course} />
                 ))}
             </div>
             <div>
@@ -115,15 +90,7 @@ const MyCourses = () => {
                     </button>
                 ))}
             </div>
-            {user && user.role === "TEACHER" ?
-                <NewCourse showModal={showNewCourseModal}
-                    onClose={handleModalClose}
-                    fetchCourses={fetchMyCourses}
-                    departmentId={entity.department.id}
-                    teachers={[entity]}
-                    isFromMyCourses={true}
-                    userEntityId={entity.id} /> : null}
-        </div> : null)
+        </div>)
 }
 
-export default MyCourses;
+export default ExploreCourses;

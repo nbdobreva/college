@@ -12,6 +12,7 @@ const ManageDepartmentTeachers = ({ showModal, departmentTeachers, teachersWitho
     const [addSearchQuery, setAddSearchQuery] = useState('');
     const [filteredAddTeachers, setFilteredAddTeachers] = useState([]);
 
+    console.log(departmentTeachers);
     useEffect(() => {
         if (departmentTeachers) {
             const filtered = departmentTeachers.filter((teacher) =>
@@ -130,18 +131,19 @@ const ManageDepartmentTeachers = ({ showModal, departmentTeachers, teachersWitho
                             onChange={(e) => setSearchDept(e.target.value)}
                         />
                         <div className="teachers-department-list">
-                            {filteredDeptTeachers.map((teacher) => (
-                                <div key={teacher.id} className="teachers-department-name">
-                                    {teacher.firstName} {teacher.lastName}
-                                    <button
-                                        type="button"
-                                        className="add-remove-button"
-                                        onClick={() => handleToggleDepartmentTeacher(teacher.id)}
-                                    >
-                                        {teachersForRemoval.has(teacher.id) ? 'Add to department' : 'Remove from department'}
-                                    </button>
-                                </div>
-                            ))}
+                            {filteredDeptTeachers.filter((teacher) => !teacher.headOfDepartment)
+                                .map((teacher) => (
+                                    <div key={teacher.id} className="teachers-department-name">
+                                        {teacher.firstName} {teacher.lastName}
+                                        <button
+                                            type="button"
+                                            className="add-remove-button"
+                                            onClick={() => handleToggleDepartmentTeacher(teacher.id)}
+                                        >
+                                            {teachersForRemoval.has(teacher.id) ? 'Add to department' : 'Remove from department'}
+                                        </button>
+                                    </div>
+                                ))}
                         </div>
                         <div className="teachers-department-menu-divider">
                             <div className="divider-line" />

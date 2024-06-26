@@ -82,7 +82,7 @@ const NewFaculty = ({ showModal, onClose, fetchFaculties }) => {
                                 id="description"
                                 name="description"
                                 placeholder="Description"
-                                maxLength={700}
+                                maxLength={65535}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
 

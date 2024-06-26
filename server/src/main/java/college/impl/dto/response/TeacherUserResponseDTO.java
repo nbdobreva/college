@@ -11,6 +11,7 @@ public class TeacherUserResponseDTO {
     private String id;
     private String firstName;
     private String lastName;
+    private String email;
     private String userId;
     private TeacherDepartment department;
     private String headOfDepartment;
@@ -25,6 +26,7 @@ public class TeacherUserResponseDTO {
         }
         this.firstName = teacher.getUser().getFirstName();
         this.lastName = teacher.getUser().getLastName();
+        this.email = teacher.getUser().getEmail();
         this.userId = teacher.getUser().getId();
     }
 
@@ -76,6 +78,14 @@ public class TeacherUserResponseDTO {
         this.headOfDepartment = headOfDepartment;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     private class TeacherDepartment {
         private String id;
         private String name;
@@ -100,5 +110,7 @@ public class TeacherUserResponseDTO {
         public void setName(String name) {
             this.name = name;
         }
+
+
     }
 }

@@ -135,7 +135,8 @@ const DepartmentCourses = ({ departmentId, departmentHeadId, teachers }) => {
                 onClose={handleNewCourseModalClose}
                 fetchCourses={fetchDepartmentCourses}
                 departmentId={departmentId}
-                teachers={teachers} />
+                teachers={teachers}
+                isFromMyCourses={false} />
             <ToastContainer />
         </div>
     );

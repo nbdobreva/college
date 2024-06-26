@@ -14,6 +14,7 @@ import MyCourses from './courses/MyCourses';
 import Departments from './department/AllDepartments';
 import Users from './users/Users';
 import User from './users/User';
+import ExploreCourses from './courses/ExploreCourses';
 
 const Layout = () => {
     return (
@@ -102,6 +103,14 @@ const Layout = () => {
                             element={
                                 <ProtectedRoute>
                                     <Users />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/explore"
+                            element={
+                                <ProtectedRoute>
+                                    <ExploreCourses />
                                 </ProtectedRoute>
                             }
                         />

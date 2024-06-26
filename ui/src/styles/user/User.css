@@ -26,6 +26,7 @@
     font-family: "Lora", serif;
 }
 
+
 .userEntity-details {
     margin-left: 30px;
     border-bottom: 1px solid #EAECEE;
@@ -43,10 +44,12 @@
 .userEntity-email {
     display: flex;
     align-items: center;
+    font-size: 11pt;
+    letter-spacing: 1pt;
 }
 
 
-.bi-envelope-at {
+.bi-envelope {
     font-size: 20pt;
     padding-right: 20px;
 }

@@ -3,7 +3,7 @@
     width: 100%;
 }
 
-.course-container {
+.course-page-container {
     width: 75%;
     padding-right: 5%;
     border-right: 1px solid #EAECEE;
@@ -12,21 +12,17 @@
     padding-bottom: 50px;
 }
 
-.course-image {
+.course-page-details-title {
     margin-bottom: 30px;
 }
 
-.course-details-title {
-    margin-bottom: 30px;
-}
-
-.course-description {
+.course-page-description {
     margin-bottom: 30px;
     line-height: 25pt;
     font-family: "Lora", serif;
 }
 
-.course-details {
+.course-page-details {
     margin-left: 30px;
 }
 
@@ -37,14 +33,14 @@
     margin-right: 10px;
 }
 
-.course-teacher {
+.course-page-teacher {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #EAECEE;
     padding-bottom: 30px;
 }
 
-.course-teacher-link {
+.course-page-teacher-link {
     display: inline;
     padding-left: 20px;
 }

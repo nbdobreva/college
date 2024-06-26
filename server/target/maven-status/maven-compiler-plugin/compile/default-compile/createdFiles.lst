@@ -16,6 +16,7 @@ college/impl/dto/TeacherDTO.class
 college/impl/repository/DepartmentRepository.class
 college/security/SecurityConfig.class
 college/conifg/GlobalExceptionHandler.class
+college/impl/dto/response/TeacherResponseDTO$TeacherCourse.class
 college/impl/dto/response/CourseResponseDTO$CourseDepartment.class
 college/impl/dto/FacultyDTO.class
 college/impl/repository/CollegeRepository.class
@@ -26,13 +27,11 @@ college/impl/dto/response/CourseResponseDTO.class
 college/impl/service/CollegeService.class
 college/impl/dto/response/CourseResponseDTO$CourseTeacher.class
 college/impl/controller/CollegeController.class
-college/impl/dto/response/TeacherCourseResponseDTO.class
 college/impl/dto/response/DepartmentResponseDTO.class
 college/impl/service/DepartmentService.class
 college/impl/entity/Faculty.class
 college/impl/dto/response/TeacherUserResponseDTO$TeacherDepartment.class
 college/security/CORSConfig.class
-college/impl/dto/response/TeacherCourseResponseDTO$TeacherCourse.class
 college/impl/controller/CourseController.class
 college/impl/dto/CollegeDTO.class
 college/impl/entity/Teacher.class
@@ -45,11 +44,13 @@ college/impl/dto/UserDTO.class
 college/impl/repository/UserRepository.class
 college/impl/service/TeacherService.class
 college/impl/controller/UsersController.class
+college/impl/dto/response/TeacherResponseDTO.class
 college/impl/repository/TeacherRepository.class
 college/impl/dto/response/StudentUserResponseDTO.class
 college/impl/dto/response/StudentResponseDTO$StudentCourse.class
 college/impl/service/CourseService.class
 college/impl/repository/StudentRepository.class
+college/impl/helpers/PatchOp.class
 college/impl/controller/AuthController.class
 college/impl/service/AuthenticationService.class
 college/impl/controller/DepartmentController.class

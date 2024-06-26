@@ -126,6 +126,11 @@ const User = () => {
         setOpenDelete(false);
     };
 
+    function toSentenceCase(str) {
+        if (!str) return str;
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+
     return (
         <div>
             {loading ? (
@@ -138,10 +143,10 @@ const User = () => {
                         <div className="userEntity-details">
                             <div className="userEntity-details-title">
                                 <h1>{userEntity.firstName} {userEntity.lastName}</h1>
-                                <div className="userEntity-description"> {userEntity.role} </div>
+                                <div className="userEntity-description"> {toSentenceCase(user.role)} </div>
                                 <div className="userEntity-email">
-                                    <i className="bi bi-envelope-at"></i>
-                                    <span>email</span>
+                                    <i className="bi bi-envelope"></i>
+                                    <span className="userEntity-email">{userEntity.email}</span>
                                 </div>
                             </div>
                         </div>

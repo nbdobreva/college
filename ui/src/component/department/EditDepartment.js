@@ -91,7 +91,7 @@ const EditDepartment = ({ showModal, initialDepartment, teachers, onClose, fetch
 
                                 />
 
-                                <div className="edit-department-select">
+                                {user.role === "ADMIN" ? <div className="edit-department-select">
                                     <i className="bi bi-mortarboard-fill edit-department-select-icon"></i>
                                     <select
                                         id="headTeacher"
@@ -113,7 +113,7 @@ const EditDepartment = ({ showModal, initialDepartment, teachers, onClose, fetch
                                             )
                                         ))}
                                     </select>
-                                </div>
+                                </div> : null}
                             </div>
 
                             <div className="edit-department-buttons">

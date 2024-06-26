@@ -26,9 +26,12 @@ public class UserService {
 
     public User createUser(User user) {
         String username = generateUniqueUsername(user.getFirstName(), user.getLastName());
-        user.setUsername(username);
+        user.setUsername(generateUniqueUsername(user.getFirstName(), user.getLastName()));
+
         String encodedPassword = new BCryptPasswordEncoder().encode(generatePassword(username));
         user.setPassword(encodedPassword);
+
+        user.setEmail(generateEmail(user.getFirstName(), user.getLastName()));
         return userRepository.save(user);
     }
 
@@ -47,6 +50,23 @@ public class UserService {
         }
 
         return username;
+    }
+
+    private String generateEmail(String firstName, String lastName) {
+        String baseEmail = firstName.toLowerCase() + "." +lastName.toLowerCase() + "@college.com";
+        String email = baseEmail;
+        int counter = 0;
+
+        while (Objects.nonNull(userRepository.findByEmail(email))) {
+            counter++;
+            if (counter < 10){
+                email = baseEmail + "0" + counter;
+            } else {
+                email = baseEmail + counter;
+            }
+        }
+
+        return email;
     }
 
     private String generatePassword(String username) {

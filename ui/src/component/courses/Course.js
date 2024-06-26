@@ -9,11 +9,13 @@ import DeleteModal from '../DeleteModal';
 
 import '../../styles/course/Course.css'
 import EditCourse from './EditCourse';
-import CourseSideMenu from './CourseSideMenu';
+import ModeratorCourseSideMenu from './ModeratorCourseSideMenu';
+import StudentCourseSideMenu from './StudentCourseSideMenu';
 
 const deleteMessage = "You are about to delete all information for this course."
 
 const Course = () => {
+    const { user } = useAuth();
     const { courseId } = useParams();
     const [loading, setLoading] = useState(true);
     const [areStudentsLoaded, setAreStudentsLoaded] = useState(false);
@@ -22,7 +24,6 @@ const Course = () => {
     const [courseTeacherId, setCourseTeacherId] = useState("");
 
     const [students, setStudents] = useState([]);
-    const { user } = useAuth();
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const navigate = useNavigate();
@@ -160,17 +161,17 @@ const Course = () => {
                 <Loader />
             ) : (
                 <div className="course-page">
-                    <div className="course-container">
-                        <div className="course-cover">
+                    <div className="course-page-container">
+                        <div className="course-page-cover">
                         </div>
-                        <div className="course-details">
-                            <div className="course-details-title">
+                        <div className="course-page-details">
+                            <div className="course-page-details-title">
                                 <h1>{course.name}</h1>
-                                <div className="course-description"> {course.description} </div>
+                                <div className="course-page-description"> {course.description} </div>
                                 {course.teacher ? (
-                                    <div className="course-teacher">
+                                    <div className="course-page-teacher">
                                         <i className="bi bi-person-workspace"></i>
-                                        <Link to={`/users/${course.teacher.userId}`} className="course-teacher-link">
+                                        <Link to={`/users/${course.teacher.userId}`} className="course-page-teacher-link">
                                             {course.teacher.firstName} {course.teacher.lastName}
                                         </Link>
                                     </div>
@@ -178,14 +179,18 @@ const Course = () => {
                             </div>
                         </div>
                     </div>
-                    <CourseSideMenu
-                        openEdit={openEditMenu}
-                        openDelete={openDeleteMenu}
-                        isCourseTeacher={user.id === courseTeacherId}
-                        userRole={user.role}
-                        courseId={courseId}
-                        students={students} />
-
+                    {(user && user.role === "STUDENT") ?
+                        <StudentCourseSideMenu
+                            courseId={courseId}
+                            students={students} /> :
+                        <ModeratorCourseSideMenu
+                            openEdit={openEditMenu}
+                            openDelete={openDeleteMenu}
+                            isCourseTeacher={user.id === courseTeacherId}
+                            userRole={user.role}
+                            courseId={courseId}
+                            students={students} />
+                    }
                     <EditCourse showModal={openEdit} onClose={closeEditMenu} initialCourse={course} fetchCourse={fetchCourseDetails} />
 
                     <DeleteModal showModal={openDelete} onClose={closeDeleteMenu} deleteEntity={deleteCourse} deleteText={deleteMessage} />
